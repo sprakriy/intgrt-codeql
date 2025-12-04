@@ -28,7 +28,7 @@ jobs:
           run: pip install -r requirements.txt # If your Python code has dependencies
 
         - name: Run Python script to create infrastructure
-          run: crt-ec2.py
+          run: python crt-ec2.py
 #            env:
 #              # Define any environment variables required by your Python script
 #              AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
