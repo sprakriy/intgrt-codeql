@@ -1,4 +1,4 @@
 numpy==1.26.2
-pandas>=2.1.0,<2.2.0
+#pandas>=2.1.0,<2.2.0
 requests
 Flask==2.3.3
