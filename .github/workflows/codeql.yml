@@ -1,32 +1,39 @@
-name: Integrate Code Ql
+name: CodeQL
 
 on:
   push:
     branches: [ main ]
-  pull:
+  pull_request:
     branches: [ main ]
   schedule:
-    -cron: '30 1 * * 0' # Weekly scan on Sunday at 01:30 UTC
+    - cron: '30 1 * * 0' # Weekly scan on Sunday at 01:30 UTC
+
 jobs:
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
-    permission:
+    permissions:
       security-events: write
       contents: read # Required for private repositories
-  steps:
-  - name: Checkout repository
-    uses: actions/checkout@v4
-  # Initializes the CodeQL analysis
-  # This step download the CodeQL  CLI, creates a CodeQL database
-  # and configures the analysis for specific languages
-  - name: Initialize CodeQL
-    uses: github/codeql-action/init@v3
-    with:
-      languages: python #Specify the language
-  - name: Autobuild
-    uses: github/codeql-action/autobuild@v3
-  # Performs the CodeQL analysis on the generated database
-  # This step runs the CodeQL queries and generates results in json format
-   - name: Perform CodeQL Anaysis
-     uses: github/codeql-action/analyze@v3
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Initializes the CodeQL analysis.
+    # This step downloads the CodeQL CLI, creates a CodeQL database,
+    # and configures the analysis for the specified languages.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: javascript # Specify the language(s) of your project (e.g., javascript, python, csharp, java)
+
+    # Autobuilds the project for compiled languages.
+    # For interpreted languages like JavaScript or Python, this step may be omitted or customized.
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v3
+
+    # Performs the CodeQL analysis on the generated database.
+    # This step runs the CodeQL queries and generates SARIF results.
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
