@@ -1,0 +1,32 @@
+name: Integrate Code Ql
+
+on:
+  push:
+    branches: [ main ]
+  pull:
+    branches: [ main ]
+  schedule:
+    -cron: '30 1 * * 0' # Weekly scan on Sunday at 01:30 UTC
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    permission:
+      security-events: write
+      contents: read # Required for private repositories
+  steps:
+  - name: Checkout repository
+    uses: actions/checkout@v4
+  # Initializes the CodeQL analysis
+  # This step download the CodeQL  CLI, creates a CodeQL database
+  # and configures the analysis for specific languages
+  - name: Initialize CodeQL
+    uses: github/codeql-action/init@v3
+    with:
+      languages: python #Specify the language
+  - name: Autobuild
+    uses: github/codeql-action/autobuild@v3
+  # Performs the CodeQL analysis on the generated database
+  # This step runs the CodeQL queries and generates results in json format
+   - name: Perform CodeQL Anaysis
+     uses: github/codeql-action/analyze@v3
