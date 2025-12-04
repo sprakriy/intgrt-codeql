@@ -24,16 +24,16 @@ jobs:
     # This step downloads the CodeQL CLI, creates a CodeQL database,
     # and configures the analysis for the specified languages.
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
+      uses: github/codeql-action/init@v4
       with:
         languages: Python # Specify the language(s) of your project (e.g., javascript, python, csharp, java)
 
     # Autobuilds the project for compiled languages.
     # For interpreted languages like JavaScript or Python, this step may be omitted or customized.
     - name: Autobuild
-      uses: github/codeql-action/autobuild@v3
+      uses: github/codeql-action/autobuild@v4
 
     # Performs the CodeQL analysis on the generated database.
     # This step runs the CodeQL queries and generates SARIF results.
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
+      uses: github/codeql-action/analyze@v4
