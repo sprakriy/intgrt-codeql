@@ -33,14 +33,14 @@ region = 'us-east-1'
 # Replace with a valid AMI ID for your region (e.g., Amazon Linux 2 AMI)
 # You can find AMIs in the EC2 console or programmatically.
 #ami_id = 'ami-0abcdef1234567890' 
-ami_id = get_latest_ami_id(region)
+#ami_id = get_latest_ami_id(region)
 
 # Replace with your desired instance type (e.g., t2.micro is eligible for the free tier)
 instance_type = 't2.micro'
 
 # Replace with the name of an existing Key Pair in your AWS account
 # This is required for SSH access to your instance.
-key_pair_name = 'my-ec2-keypair' 
+#key_pair_name = 'my-ec2-keypair' 
 
 # Optional: Replace with a valid Security Group ID for your region
 # This controls inbound/outbound traffic to your instance.
@@ -55,7 +55,8 @@ try:
 
     # Launch the EC2 instance
     response = ec2.run_instances(
-        ImageId=ami_id,
+        #ImageId=ami_id,
+        ImageId=get_latest_ami_id(region),
         InstanceType=instance_type,
         MinCount=1,
         MaxCount=1,
