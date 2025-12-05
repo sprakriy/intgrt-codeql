@@ -60,7 +60,7 @@ try:
         InstanceType=instance_type,
         MinCount=1,
         MaxCount=1,
-        KeyName=key_pair_name,
+        #KeyName=key_pair_name,
         # SecurityGroupIds=security_group_ids, # Uncomment and set if needed
         # SubnetId=subnet_id, # Uncomment and set if needed
         TagSpecifications=[
