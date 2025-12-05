@@ -1,11 +1,39 @@
 import boto3
+from dateutil import parser
+
+def get_latest_ami_id(region_name="us-east-1"):
+    """
+    Retrieves the ID of the latest Amazon Linux 2 AMI.
+    """
+    ec2_client = boto3.client("ec2", region_name=region_name)
+
+    # Filter for Amazon Linux 2 AMIs, owned by Amazon, and available
+    filters = [
+        {"Name": "name", "Values": ["amzn2-ami-hvm-*-x86_64-gp2"]},
+        {"Name": "owner-id", "Values": ["137112412989"]},  # Amazon's owner ID
+        {"Name": "state", "Values": ["available"]},
+    ]
+
+    response = ec2_client.describe_images(Filters=filters)
+
+    if not response["Images"]:
+        raise Exception("No Amazon Linux 2 AMIs found.")
+
+    # Sort images by CreationDate to find the latest
+    latest_image = None
+    for image in response["Images"]:
+        if not latest_image or parser.parse(image["CreationDate"]) > parser.parse(latest_image["CreationDate"]):
+            latest_image = image
+
+    return latest_image["ImageId"]
 
 # Replace with your desired region
 region = 'us-east-1' 
 
 # Replace with a valid AMI ID for your region (e.g., Amazon Linux 2 AMI)
 # You can find AMIs in the EC2 console or programmatically.
-ami_id = 'ami-0abcdef1234567890' 
+#ami_id = 'ami-0abcdef1234567890' 
+ami_id = get_latest_ami_id(region)
 
 # Replace with your desired instance type (e.g., t2.micro is eligible for the free tier)
 instance_type = 't2.micro'
